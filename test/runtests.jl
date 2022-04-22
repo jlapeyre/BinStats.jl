@@ -21,5 +21,13 @@ const hexfile = "test_dump5.hex"
     end
     @test rand(Bin64) isa Bin64
     @test eltype(rand(Bin64, 3)) <: Bin64
-end
 
+    v1 = readhex(hexfile, Bin64)
+    bitm = collect(readhex(hexfile, BitMatrix))
+
+    str_v1 = string(v1)
+    iob = IOBuffer()
+    bitprint(iob, bitm)
+    str_bitm = String(take!(iob))
+    @test str_bitm == str_v1
+end
