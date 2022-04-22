@@ -24,8 +24,9 @@ end
 
 Random.rand(rng::Random.AbstractRNG, ::Random.SamplerType{Bin64}) = Bin64(rand(rng, UInt64))
 
+# First bit is leftmost, that is MSB
 function Base.getindex(b::Bin64, i::Integer)
-    return Bool((b.x << (i - 1)) & 1)
+    return Bool((b.x >> (64 - i)) & 1)
 end
 
 function Base.getindex(b::Bin64, inds::AbstractVector{<:Integer})
